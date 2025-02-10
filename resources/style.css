@@ -1,5 +1,6 @@
+/* General Styles */
 body {
-    font-family: 'Poppins',Arial, Helvetica, sans-serif;
+    font-family: "Poppins", Arial, sans-serif;
     background-color: #f5f5f5;
     display: flex;
     justify-content: center;
@@ -8,42 +9,94 @@ body {
     flex-direction: column;
     margin: 0;
 }
-.container {
+
+/* Main Content Container */
+#mainContainer {
     background: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.4);
+    box-shadow: 10px 10px black;
     text-align: center;
     width: 90%;
     max-width: 500px;
 }
+
+/* Title */
 h1 {
     font-size: 2rem;
     color: #333;
     margin-bottom: 10px;
 }
+
+/* Description */
 p {
     font-size: 1.2rem;
     color: #555;
 }
+
+/* Links */
+#links {
+    margin-top: 15px;
+}
+
 #links a {
-    display:block;
-    background-color: #007bff;
+    display: block;
+    background: #ffb300;
     color: white;
     text-decoration: none;
     padding: 10px;
-    border: 1px solid;
-    border-radius: 10px;
-    margin: 5px 0;
+    border-radius: 5px;
+    margin: 20px 0;
     font-weight: bold;
     transition: 0.3s;
+    box-shadow: 10px 10px #bb8300;
 }
+
 #links a:hover {
-    background: #0056b3;
+    background: #bb8300;
+    color: black;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    background-color: #222;
+    color: white;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Clock & Calendar Container */
+#calClockContainer {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+}
+
+/* Clock & Calendar Styling */
+#clock-container,
+#calendar-container {
+    background: #ffb300;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 10px 10px #bb8300;
+    text-align: center;
+    width: 50%;
+}
+#clock-container {
+    margin-right: 10px;
 }
 #clock {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
-    margin-top: 10px;
+    color: black;
+}
 
+#calendar {
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
 }

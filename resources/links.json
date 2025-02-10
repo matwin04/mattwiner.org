@@ -1,0 +1,14 @@
+[
+    {
+        "name": "OwnCloud",
+        "url": "https://owncloud.mattwiner.org"
+    },
+    {
+        "name": "Immich",
+        "url": "https://immich.mattwiner.org"
+    },
+    {
+        "name": "NextCloud",
+        "url": "https://nextcloud.mattwiner.org"
+    }
+]
