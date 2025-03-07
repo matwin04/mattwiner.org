@@ -21,9 +21,27 @@
             Personal Projects
         </p>
 
-        <div class="message message-header">More Is Coming Soon
-            <a class="message message-body">Please stay tunned</a>
+        <div class="table table-container">
+            <h2>Links to other projects</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each links}}
+                    <tr>
+                        <td>{{this.name}}</td>
+                        <td><a href="{{this.url}}" target="_blank">{{this.url}}</a></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
         </div>
+    
+        
         
     </body>
     </html>

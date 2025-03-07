@@ -13,8 +13,22 @@ app.set("views", path.join(__dirname, "views"));
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "public")));
-app.get("/", (req, res) => res.render("index", { title: "MW" }));
 
+const getLinks = (filename) => {
+    try {
+        const filePath = path.join(__dirname, "public", filename);
+        const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+        return data;
+    } catch (error) {
+        console.error(`Error reading ${filename}:`, error);
+        return [];
+    }
+};
+app.get("/", (req, res) => {
+    const links = getLinks("links.json");
+
+    res.render("index", { title: "MW", links });
+});
 // Vercel support: Export Express app
 module.exports = app;
 
