@@ -12,19 +12,28 @@
 
         <link rel="stylesheet" href="/public/styles/main.css" />
         <link rel="stylesheet" href="/public/styles/navbar.css" />
+        
     </head>
     <body>
         <h1 class="title">mattiner.org</h1>
-        <p class="subtitle">Just a simple place for my Personal Projects</p>
+        <p class="subtitle">
+            Just a simple place for my
+            Personal Projects
+        </p>
 
         <div class="columns is-multiline">
             {{#each links}}
             <div class="column is-one-quarter">
                 <h3 class="title is-5">{{this.name}}</h3>
+                <p class="subtitle">{{this.status}}</p>
                 <span class="material-icons">{{this.icon}}</span>
-                <button class="view-button">View</button>
+                <a href="{{this.url}}" target="_blank">{{this.url}}</a>
+                <p class="decription">{{this.description}}</p>
             </div>
             {{/each}}
         </div>
+    
+        
+        
     </body>
-</html>
+    </html>

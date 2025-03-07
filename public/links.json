@@ -7,9 +7,13 @@
   },
   {
     "name": "Nextcloud",
-    
     "status": "N/A",
     "icon": "cloud",
     "url": "https://nextcloud.mattwiner.org"
+  },
+  {
+    "name":"Media Server",
+    "status":"Coming Soon",
+    "icon":"video"
   }
 ]
