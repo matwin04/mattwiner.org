@@ -1,0 +1,21 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+:root {
+  --bulma-primary-h: yellow;
+  --bulma-info-h: green;
+}
+body {
+  padding: 50px;
+}
+.subtitle {
+  text-align: center;
+  align-items: center;
+}
+.title {
+  text-align: center;
+  color: var(--bulma-primary-h);
+}
+.annoucement {
+  text-align: center;
+  font-size: x-large;
+  font-weight: bolder;
+}
