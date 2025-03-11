@@ -12,6 +12,12 @@
     "url": "https://nextcloud.mattwiner.org"
   },
   {
+    "name":"Notes",
+    "status":"N/A",
+    "icon":"notes",
+    "url":"https://wiki.mattwiner.org"
+  },
+  {
     "name":"Media Server",
     "status":"Coming Soon",
     "icon":"video"
