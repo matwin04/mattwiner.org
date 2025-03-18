@@ -29,16 +29,11 @@ app.get("/", (req, res) => {
 
     res.render("index", { title: "MW", links });
 });
-app.get("/projects", (req, res) => {
-    const links = getLinks("links.json");
-
-    res.render("projects", { title: "Projects", links });
+app.get("/seriald", (req, res) => {
+    const commands = getLinks("2308.json");
+    res.render("seriald", { title: "Serial D",commands });
 });
 
-app.get("/status", (req, res) => {
-    const links = getLinks("links.json");
-    res.render("status", { title: "Status", links });
-});
 // Vercel support: Export Express app
 module.exports = app;
 

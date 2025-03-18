@@ -12,14 +12,15 @@
     "url": "https://nextcloud.mattwiner.org"
   },
   {
-    "name":"Notes",
+    "name":"Music",
     "status":"N/A",
-    "icon":"notes",
-    "url":"https://wiki.mattwiner.org"
+    "icon":"music",
+    "url":"https://media.mattwiner.org"
   },
   {
-    "name":"Media Server",
-    "status":"Coming Soon",
-    "icon":"video"
+    "name":"Dashboard",
+    "status":"N/A",
+    "icon":"music",
+    "url":"https://dash.mattwiner.org"
   }
 ]

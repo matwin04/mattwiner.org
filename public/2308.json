@@ -1,0 +1,11 @@
+[
+    {
+        "command":"PW",
+        "parameter":"ON",
+        "example":"PWON"
+    },
+    {
+        "command":"PW",
+        "parameter":"STANDBY"
+    }
+]
