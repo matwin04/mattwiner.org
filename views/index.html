@@ -6,13 +6,19 @@
 
     <meta property="og:title" content="LeftLane Community">
 
-        <link rel="icon" href="/images/favicon.ico" />
-        <link rel="stylesheet" href="/styles/main.css" />
-        <link rel="stylesheet" href="/styles/navbar.css" />
-
-        <link rel="stylesheet" href="/public/styles/main.css" />
-        <link rel="stylesheet" href="/public/styles/navbar.css" />
-        
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById("clock").textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        document.addEventListener("DOMContentLoaded", updateClock);
+    </script>
 </head>
 <body>
 
