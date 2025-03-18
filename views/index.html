@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>{{title}}</title>
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
 
-        <meta property="og:title" content="LeftLane Community" />
+    <meta property="og:title" content="LeftLane Community">
 
         <link rel="icon" href="/images/favicon.ico" />
         <link rel="stylesheet" href="/styles/main.css" />
@@ -13,36 +13,49 @@
         <link rel="stylesheet" href="/public/styles/main.css" />
         <link rel="stylesheet" href="/public/styles/navbar.css" />
         
-    </head>
-    <body>
-        <h1 class="title">mattiner.org</h1>
-        <p class="subtitle">
-            Just a simple place for my
-            Personal Projects
-        </p>
+</head>
+<body>
 
-        <div class="columns is-multiline">
-            {{#each links}}
-            <div class="column is-one-quarter">
-                <h3 class="title is-5">{{this.name}}</h3>
-                <p class="subtitle">{{this.status}}</p>
-                <span class="material-icons">{{this.icon}}</span>
-                <a href="{{this.url}}" target="_blank">{{this.url}}</a>
-                <p class="decription">{{this.description}}</p>
-            </div>
-            {{/each}}
+    <section class="section">
+        <div class="container has-text-centered">
+            <h1 class="title">mattiner.org</h1>
+            <p class="subtitle">Just a simple place for my Personal Projects</p>
         </div>
+    </section>
 
-        <div class="columns is-multiline">
-            <div class="column is-half">
-                <h2>Test</h2>
-            </div>
-            <div class="column is-half">
-                <h2>Test</h2>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-vcentered">
+                <div class="column is-half has-text-centered">
+                    <h2 class="title is-4">Current Time</h2>
+                    <p id="clock" class="title is-2 has-text-primary"></p>
+                </div>
+                <div class="column is-half has-text-centered">
+                    <h2 class="title is-4">Another Section</h2>
+                    <p>Content here...</p>
+                </div>
             </div>
         </div>
-    
-        
-        
-    </body>
-    </html>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline">
+                {{#each links}}
+                <div class="column is-one-quarter">
+                    <div class="box has-text-centered">
+                        <h3 class="title is-5">{{this.name}}</h3>
+                        <p class="subtitle">{{this.status}}</p>
+                        <span class="material-icons">{{this.icon}}</span>
+                        <br>
+                        <a href="{{this.url}}" target="_blank" class="button is-link is-light">{{this.url}}</a>
+                        <p class="description">{{this.description}}</p>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
