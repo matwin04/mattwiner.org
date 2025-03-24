@@ -40,21 +40,20 @@ const getLibraryIds = () => {
 
 const saveLibraryCache = (libraryMap) => {
     const cachePath = path.join(__dirname, 'data', 'libraryCache.json');
+    fs.mkdirSync(path.dirname(cachePath), { recursive: true });
     fs.writeFileSync(cachePath, JSON.stringify(libraryMap, null, 2));
 };
 
-// Middleware
 const requireAuth = (req, res, next) => {
     if (!req.cookies.token) return res.redirect('/mediamanager/login');
     next();
 };
 
-// Home
+// Routes
 app.get('/', (req, res) => {
     res.render('index', { title: 'MATTWINER.ORG' });
 });
 
-// Login
 app.get('/mediamanager/login', (req, res) => {
     res.render('mediamanager-login', { title: 'Login' });
 });
@@ -71,8 +70,9 @@ app.post('/mediamanager/login', async (req, res) => {
             body: JSON.stringify({ Username: username, Pw: password })
         });
 
-        if (!response.ok) throw new Error('Login failed');
+        if (!response.ok) throw new Error(`Login failed: ${response.status}`);
         const data = await response.json();
+
         const token = data.AccessToken;
         const userId = data.User.Id;
 
@@ -83,6 +83,8 @@ app.post('/mediamanager/login', async (req, res) => {
         const viewsRes = await fetch(`${process.env.HOST}/Users/${userId}/Views`, {
             headers: { 'X-Emby-Token': token }
         });
+
+        if (!viewsRes.ok) throw new Error(`Failed to fetch views: ${viewsRes.status}`);
         const viewsData = await viewsRes.json();
 
         const libraryMap = {};
@@ -102,19 +104,17 @@ app.post('/mediamanager/login', async (req, res) => {
     }
 });
 
-// Logout
 app.get('/mediamanager/logout', (req, res) => {
     res.clearCookie('token');
     res.clearCookie('userId');
     res.redirect('/mediamanager/login');
 });
 
-// Dashboard
 app.get('/mediamanager', requireAuth, (req, res) => {
     const mediaTypes = [
         { name: 'Music', route: '/mediamanager/music', icon: '🎵' },
         { name: 'Movies', route: '/mediamanager/movies', icon: '🎬' },
-        { name: 'TV Shows', route: '/mediamanager/tvshows', icon: '📺' },
+        { name: 'TV Shows', route: '/mediamanager/shows', icon: '📺' },
         { name: 'Podcasts', route: '/mediamanager/podcasts', icon: '🎙' },
         { name: 'Photos', route: '/mediamanager/photos', icon: '🖼' },
         { name: 'Videos', route: '/mediamanager/videos', icon: '📹' }
@@ -122,7 +122,6 @@ app.get('/mediamanager', requireAuth, (req, res) => {
     res.render('mediamanager', { title: 'Media Dashboard', mediaTypes });
 });
 
-// Movies
 app.get('/mediamanager/movies', requireAuth, async (req, res) => {
     const { token, userId } = req.cookies;
     const ids = getLibraryIds();
@@ -130,6 +129,8 @@ app.get('/mediamanager/movies', requireAuth, async (req, res) => {
         const r = await fetch(`${process.env.HOST}/Users/${userId}/Items?ParentId=${ids.movies}&IncludeItemTypes=Movie`, {
             headers: { 'X-Emby-Token': token }
         });
+
+        if (!r.ok) throw new Error(`Failed to fetch movies: ${r.status}`);
         const result = await r.json();
         res.render('mediamanager-movies', { title: 'Movies', items: result.Items || [] });
     } catch (err) {
@@ -138,41 +139,82 @@ app.get('/mediamanager/movies', requireAuth, async (req, res) => {
     }
 });
 
-// TV Shows
-app.get('/mediamanager/tvshows', requireAuth, async (req, res) => {
+app.get('/mediamanager/shows', requireAuth, async (req, res) => {
     const { token, userId } = req.cookies;
     const ids = getLibraryIds();
     try {
         const r = await fetch(`${process.env.HOST}/Users/${userId}/Items?ParentId=${ids.tvshows}&IncludeItemTypes=Series`, {
             headers: { 'X-Emby-Token': token }
         });
+
+        if (!r.ok) throw new Error(`Failed to fetch shows: ${r.status}`);
         const result = await r.json();
         res.render('mediamanager-shows', { title: 'TV Shows', items: result.Items || [] });
     } catch (err) {
         console.error(err);
-        res.status(500).send('Failed to load shows');
+        res.status(500).send('Failed to load TV shows');
     }
 });
+
+app.get('/mediamanager/shows/:id', requireAuth, async (req, res) => {
+    const { token, userId } = req.cookies;
+    const showId = req.params.id;
+
+    try {
+        const episodesRes = await fetch(`${process.env.HOST}/Shows/${showId}/Episodes?UserId=${userId}`, {
+            headers: { 'X-Emby-Token': token }
+        });
+
+        if (!episodesRes.ok) {
+            const text = await episodesRes.text();
+            console.error('❌ Error fetching episodes:', text);
+            return res.status(500).send('Could not load episodes');
+        }
+
+        const episodesData = await episodesRes.json();
+
+        const showRes = await fetch(`${process.env.HOST}/Items/${showId}`, {
+            headers: { 'X-Emby-Token': token }
+        });
+
+        if (!showRes.ok) {
+            const text = await showRes.text();
+            console.error('❌ Error fetching show info:', text);
+            return res.status(500).send('Could not load show');
+        }
+
+        const show = await showRes.json();
+
+        res.render('mediamanager-episodes', {
+            title: `Episodes - ${show.Name}`,
+            showName: show.Name,
+            episodes: episodesData.Items || []
+        });
+
+    } catch (err) {
+        console.error('❌ Exception in show/:id route:', err);
+        res.status(500).send('Unexpected error');
+    }
+});
+
 app.get('/getviews', requireAuth, async (req, res) => {
     const { token, userId } = req.cookies;
     try {
         const response = await fetch(`${process.env.HOST}/Users/${userId}/Views`, {
             headers: { 'X-Emby-Token': token }
         });
+
+        if (!response.ok) throw new Error(`Failed to fetch views: ${response.status}`);
         const viewsData = await response.json();
+
         const libraryMap = {};
         for (const item of viewsData.Items) {
             if (item.CollectionType) {
                 libraryMap[item.CollectionType] = item.Id;
             }
         }
-        const dataDir = path.join(__dirname, 'data');
-        const cachePath = path.join(__dirname, 'data', 'libraryCache.json');
-        if (!fs.existsSync(dataDir)) {
-            fs.mkdirSync(dataDir);
-        }
-        fs.writeFileSync(cachePath, JSON.stringify(libraryMap, null, 2));
 
+        saveLibraryCache(libraryMap);
         console.log('✅ libraryCache.json created from /getviews:', libraryMap);
         res.send('<h2>✅ libraryCache.json created. <a href="/mediamanager">Return to Dashboard</a></h2>');
     } catch (error) {
@@ -180,6 +222,8 @@ app.get('/getviews', requireAuth, async (req, res) => {
         res.status(500).send('❌ Failed to create libraryCache.json');
     }
 });
+
+// Start
 export default app;
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => console.log(`🚀 Server at http://localhost:${PORT}`));

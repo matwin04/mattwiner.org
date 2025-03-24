@@ -4,3 +4,4 @@
 .env
 .env
 data/libraryCache.json
+.DS_Store
