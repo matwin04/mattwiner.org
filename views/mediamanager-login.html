@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{Title}}</title>
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/public/styles/main.css">
+</head>
+<body>
+<h1 class="container my-5">{{Title}}</h1>
+<form method="POST" action="/mediamanager/login">
+    <div class="container mb-5">
+        <label for="username" class="form-label">Username</label>
+        <input class="form-control" type="text" name="username" id="username" required>
+    </div>
+    <div class="container mb-5">
+        <label for="password" class="form-label">Password</label>
+        <input class="form-control" type="password" name="password" id="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+</body>
+</html>

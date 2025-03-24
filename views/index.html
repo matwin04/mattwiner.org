@@ -7,9 +7,8 @@
     <meta property="og:title" content="LeftLane Community">
 
     <link rel="icon" href="/images/favicon.ico">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/public/styles/main.css">
     <script>
         function updateClock() {
             const now = new Date();
@@ -21,47 +20,34 @@
     </script>
 </head>
 <body>
+    <div class="container text-center my-5">
+        <h1 class="display-4">mattwiner.org</h1>
+    </div>
 
-    <section class="section">
-        <div class="container has-text-centered">
-            <h1 class="title">mattiner.org</h1>
-            <p class="subtitle">Just a simple place for my Personal Projects</p>
+    <div class="container my-5">
+        <div class="row text-center">
+            <h2 class="h4">Current Time</h2>
+            <p id="clock" class="display-4 text-primary"></p>
         </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="columns is-vcentered">
-                <div class="column is-half has-text-centered">
-                    <h2 class="title is-4">Current Time</h2>
-                    <p id="clock" class="title is-2 has-text-primary"></p>
-                </div>
-                <div class="column is-half has-text-centered">
-                    <h2 class="title is-4">Another Section</h2>
-                    <p>Content here...</p>
+    </div>
+    <div class="row text-center">
+        <h2 class="h4">Media Manager</h2>
+        <a href="/mediamanager">Media Manager</a>
+    </div>
+    <div class="row">
+        {{#each links}}
+        <div class="col-md-3 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{this.status}}</h6>
+                    <span class="material-icons" style="font-size: 36px;">{{this.icon}}</span>
+                    <br>
+                    <a href="{{this.url}}" type="button" class="btn btn-primary">{{this.name}}</a>
+                    <p class="card-text mt-2">{{this.description}}</p>
                 </div>
             </div>
         </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="columns is-multiline">
-                {{#each links}}
-                <div class="column is-one-quarter">
-                    <div class="box has-text-centered">
-                        <h3 class="title is-5">{{this.name}}</h3>
-                        <p class="subtitle">{{this.status}}</p>
-                        <span class="material-icons">{{this.icon}}</span>
-                        <br>
-                        <a href="{{this.url}}" target="_blank" class="button is-link is-light">{{this.url}}</a>
-                        <p class="description">{{this.description}}</p>
-                    </div>
-                </div>
-                {{/each}}
-            </div>
-        </div>
-    </section>
-
+        {{/each}}
+    </div>
 </body>
-</html>
