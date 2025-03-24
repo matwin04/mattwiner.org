@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 8088;
 
-app.engine('html', engine({ extname: '.html', defaultLayout: false }));
+app.engine('html', engine({ extname: '.html', defaultLayout: false,partialsDir: path.join(__dirname, 'views/partials')}));
 app.set('view engine', 'html');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -43,15 +43,24 @@ app.get('/', (req, res) => {
     const links = getLinks('links.json');
     res.render('index', {title:"MATTWINER.ORG",links});
 });
-app.get('/mediamanager', (req, res) => {
-    res.render('mediamanager');
+app.get('/mediamanager', requireAuth, async (req, res) => {
+    const mediaTypes = [
+        { name: 'Music', route: '/mediamanager/music', icon: '🎵' },
+        { name: 'Movies', route: '/mediamanager/movies', icon: '🎬' },
+        { name: 'TV Shows', route: '/mediamanager/tvshows', icon: '📺' },
+        { name: 'Podcasts', route: '/mediamanager/podcasts', icon: '🎙' },
+        { name: 'Photos', route: '/mediamanager/photos', icon: '🖼' },
+        { name: 'Videos', route: '/mediamanager/videos', icon: '📹' },
+    ];
+    res.render('mediamanager', {
+        title: "MATTWINER.ORG",
+        mediaTypes
+    });
 });
 // Show login page (GET)
 app.get('/mediamanager/login', (req, res) => {
     res.render('mediamanager-login', { title: 'MediaManager Login' });
 });
-
-// Handle login form (POST)
 app.post('/mediamanager/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -77,6 +86,31 @@ app.post('/mediamanager/login', async (req, res) => {
         console.error('Login error:', error);
         res.status(401).send('Invalid username or password.');
     }
+});
+app.get('/mediamanager/user', requireAuth, async (req, res) => {
+    const { token, userId } = req.cookies;
+    try {
+        const response = await fetch(`${process.env.HOST}/Users/${userId}`, {
+            headers: { 'X-Emby-Token': token }
+        });
+
+        const user = await response.json();
+        res.render('mediamanager-user', {
+            title: 'User Dashboard',
+            user
+        });
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+        res.status(500).send('Could not load user dashboard');
+    }
+});
+
+
+// LOGOUT
+app.get('/mediamanager/logout', (req, res) => {
+    res.clearCookie('token');
+    res.clearCookie('userId');
+    res.redirect('/mediamanager/login');
 });
 export default app;
 

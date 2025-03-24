@@ -7,8 +7,4 @@
   --odesa-accent-color: #f0ac0b;
 }
 
-body {
-  padding: 50px;
-  background-color: var(--odesa-secondary-color);
-  color: var(--odesa-primary-color);
-}
+
