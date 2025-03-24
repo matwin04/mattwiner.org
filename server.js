@@ -60,7 +60,10 @@ app.get('/mediamanager/login', (req, res) => {
 
 app.post('/mediamanager/login', async (req, res) => {
     const { username, password } = req.body;
+
     try {
+        console.log(`🔐 Attempting login as ${username}`);
+
         const response = await fetch(`${process.env.HOST}/Users/AuthenticateByName`, {
             method: 'POST',
             headers: {
@@ -70,24 +73,41 @@ app.post('/mediamanager/login', async (req, res) => {
             body: JSON.stringify({ Username: username, Pw: password })
         });
 
-        if (!response.ok) throw new Error(`Login failed: ${response.status}`);
+        if (!response.ok) {
+            const errorBody = await response.text();
+            console.error(`❌ Login failed. Status ${response.status}: ${errorBody}`);
+            return res.status(401).send('Login failed: invalid credentials or request format.');
+        }
+
         const data = await response.json();
 
         const token = data.AccessToken;
         const userId = data.User.Id;
 
+        if (!token || !userId) {
+            console.error('❌ Login failed: Missing token or user ID in response.');
+            return res.status(401).send('Login failed: unexpected server response.');
+        }
+
         res.cookie('token', token, { httpOnly: true });
         res.cookie('userId', userId, { httpOnly: true });
+
+        console.log('✅ Login successful:', { token, userId });
 
         // Auto-refresh library cache
         const viewsRes = await fetch(`${process.env.HOST}/Users/${userId}/Views`, {
             headers: { 'X-Emby-Token': token }
         });
 
-        if (!viewsRes.ok) throw new Error(`Failed to fetch views: ${viewsRes.status}`);
-        const viewsData = await viewsRes.json();
+        if (!viewsRes.ok) {
+            const errorBody = await viewsRes.text();
+            console.error(`❌ Failed to fetch views. Status ${viewsRes.status}: ${errorBody}`);
+            return res.status(500).send('Failed to fetch views.');
+        }
 
+        const viewsData = await viewsRes.json();
         const libraryMap = {};
+
         for (const item of viewsData.Items) {
             if (item.CollectionType) {
                 libraryMap[item.CollectionType] = item.Id;
@@ -95,15 +115,14 @@ app.post('/mediamanager/login', async (req, res) => {
         }
 
         saveLibraryCache(libraryMap);
-        console.log('✅ Refreshed library cache:', libraryMap);
+        console.log('📁 Library cache updated:', libraryMap);
 
         res.redirect('/mediamanager');
     } catch (error) {
-        console.error('Login error:', error);
-        res.status(401).send('Login failed.');
+        console.error('Login error (catch block):', error);
+        res.status(500).send('Unexpected login error.');
     }
 });
-
 app.get('/mediamanager/logout', (req, res) => {
     res.clearCookie('token');
     res.clearCookie('userId');
@@ -121,7 +140,6 @@ app.get('/mediamanager', requireAuth, (req, res) => {
     ];
     res.render('mediamanager', { title: 'Media Dashboard', mediaTypes });
 });
-
 app.get('/mediamanager/movies', requireAuth, async (req, res) => {
     const { token, userId } = req.cookies;
     const ids = getLibraryIds();
