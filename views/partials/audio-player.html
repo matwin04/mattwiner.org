@@ -1,0 +1,26 @@
+<div id="audio-player" class="fixed-bottom bg-dark text-white p-3 d-flex align-items-center" style="display: none;">
+    <div class="flex-grow-1">
+        <strong id="now-playing-title">Now Playing</strong>
+        <div id="now-playing-meta" class="text-muted small"></div>
+    </div>
+    <audio id="player" controls class="ms-3" style="width: 300px;"></audio>
+</div>
+
+<script>
+    async function playAudio(id) {
+        try {
+            const res = await fetch(`/play/audio/${id}`);
+            const data = await res.json();
+
+            const player = document.getElementById('player');
+            player.src = data.url;
+            player.play();
+
+            document.getElementById('now-playing-title').textContent = data.name;
+            document.getElementById('now-playing-meta').textContent = `${data.artist || ''} — ${data.album || ''}`;
+            document.getElementById('audio-player').style.display = 'flex';
+        } catch (err) {
+            alert('Failed to load audio');
+        }
+    }
+</script>

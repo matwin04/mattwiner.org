@@ -151,26 +151,126 @@ app.get('/mediamanager/movies', requireAuth, async (req, res) => {
         res.status(500).send('Failed to load movies');
     }
 });
-
-// Shows
 app.get('/mediamanager/shows', requireAuth, async (req, res) => {
     const { token, userId } = req.cookies;
 
     try {
         const id = await getLibraryId('tvshows', token, userId);
         if (!id) throw new Error('TV Shows library not found');
-
         const r = await fetch(`${process.env.HOST}/Users/${userId}/Items?ParentId=${id}&IncludeItemTypes=Series`, {
             headers: { 'X-Emby-Token': token }
         });
-
         if (!r.ok) throw new Error(`Failed to fetch shows: ${r.status}`);
         const result = await r.json();
-
         res.render('mediamanager-shows', { title: 'TV Shows', items: result.Items || [] });
     } catch (err) {
         console.error(err);
         res.status(500).send('Failed to load shows');
+    }
+});
+app.get('/mediamanager/music',requireAuth, async (req, res) => {
+    const { token, userId } = req.cookies;
+    try {
+        const id = await getLibraryId('music', token, userId);
+        if (!id) throw new Error('Music ID not found');
+        const r = await fetch(`${process.env.HOST}/Users/${userId}/Items?ParentId=${id}&IncludeItemTypes=Audio&Recursive=true`, {
+            headers: { 'X-Emby-Token': token }
+        });
+        if (!r.ok) throw new Error(`Failed to fetch music: ${r.status}`);
+        const result = await r.json();
+        res.render("mediamanager-music",{
+            title: 'Music',
+            items: result.Items || []
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to load music');
+    }
+});
+app.get('/mediamanager/music/albums', requireAuth, async (req, res) => {
+    const { token, userId } = req.cookies;
+    try {
+        const id = await getLibraryId('music', token, userId);
+        const r = await fetch(`${process.env.HOST}/Users/${userId}/Items?ParentId=${id}&IncludeItemTypes=MusicAlbum&Recursive=true&Limit=9999`, {
+            headers: { 'X-Emby-Token': token }
+        });
+        const data = await r.json();
+        res.render('mediamanager-music-albums', { title: 'Music Albums', items: data.Items || [], token });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to load albums');
+    }
+});
+app.get('/mediamanager/music/artists', requireAuth, async (req, res) => {
+    const { token, userId } = req.cookies;
+    try {
+        const r = await fetch(`${process.env.HOST}/Artists?UserId=${userId}&Limit=9999`, {
+            headers: { 'X-Emby-Token': token }
+        });
+        const data = await r.json();
+        res.render('mediamanager-music-artists', { title: 'Artists', items: data.Items || [], token });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to load artists');
+    }
+});
+app.get('/mediamanager/music/artist/:id/albums', requireAuth, async (req, res) => {
+    const { token, userId } = req.cookies;
+    const artistId = req.params.id;
+    try {
+        const r = await fetch(`${process.env.HOST}/Users/${userId}/Items?ParentId=${artistId}&IncludeItemTypes=MusicAlbum&Recursive=true&Limit=9999`, {
+            headers: { 'X-Emby-Token': token }
+        });
+        const data = await r.json();
+        res.render('mediamanager-albums', {
+            title: 'Albums by Artist',
+            items: data.Items || [],
+            token,
+            backLink: '/mediamanager/music/artists'
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to load artist albums');
+    }
+});
+app.get('/mediamanager/music/artist/:artistId/album/:albumId', requireAuth, async (req, res) => {
+    const { token, userId } = req.cookies;
+    const { artistId, albumId } = req.params;
+    try {
+        const r = await fetch(`${process.env.HOST}/Users/${userId}/Items?ParentId=${albumId}&IncludeItemTypes=Audio&Recursive=true&Limit=9999`, {
+            headers: { 'X-Emby-Token': token }
+        });
+        const data = await r.json();
+        res.render('mediamanager-tracks', {
+            title: 'Tracks in Album',
+            items: data.Items || [],
+            backLink: `/mediamanager/music/artist/${artistId}/albums`
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to load tracks');
+    }
+});
+app.get('/play/audio/:id', requireAuth, async (req, res) => {
+    const { token } = req.cookies;
+    const id = req.params.id;
+
+    try {
+        const r = await fetch(`${process.env.HOST}/Items/${id}`, {
+            headers: { 'X-Emby-Token': token }
+        });
+        if (!r.ok) throw new Error(`Audio fetch failed: ${r.status}`);
+        const item = await r.json();
+        res.json({
+            name: item.Name,
+            url: `${process.env.HOST}/Audio/${id}/stream.mp3?api_key=${token}`,
+            artist: item.AlbumArtists?.[0]?.Name || item.Artists?.[0] || 'Unknown Artist',
+            album: item.Album || 'Unknown Album'
+        });
+        console.log(`playing ${item.Name}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to load audio' });
     }
 });
 // Show → Episodes
