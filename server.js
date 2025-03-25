@@ -198,6 +198,43 @@ app.get('/mediamanager/shows/:id', requireAuth, async (req, res) => {
         res.status(500).send('Failed to load episodes');
     }
 });
+app.get('/mediamanager/user/:userId', requireAuth, async (req, res) => {
+    const { token } = req.cookies;
+    const userId = req.params.userId;
+    try {
+        const response = await fetch(`${process.env.HOST}/Users/${userId}`, {
+            headers: { 'X-Emby-Token': token }
+        });
+        if (!response.ok) throw new Error(`User fetch failed: ${response.status}`);
+        const user = await response.json();
+        res.render('mediamanager-user', {
+            title: `${user.Name}'s Profile`,
+            user
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to load user info');
+    }
+});
+app.get('/mediamanager/play/:id',requireAuth, async (req, res) => {
+    const { token, userId } = req.cookies;
+    const itemId = req.params.id;
+    try {
+        const response = await fetch(`${process.env.HOST}/Items/${itemId}`, {
+            headers: { 'X-Emby-Token': token }
+        });
+        if (!response.ok) throw new Error(`Player fetch failed: ${response.status}`);
+        const item = await response.json();
+        res.render('mediamanager-player', {
+            title: `Playing ${item.Name}`,
+            item,
+            token
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to load player info');
+    }
+});
 // /getviews route – just view raw views from Jellyfin
 app.get('/getviews', requireAuth, async (req, res) => {
     const { token, userId } = req.cookies;
