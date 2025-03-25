@@ -198,18 +198,37 @@ app.get('/mediamanager/shows/:id', requireAuth, async (req, res) => {
         res.status(500).send('Failed to load episodes');
     }
 });
+app.get('/mediamanager/user', requireAuth, (req, res) => {
+    const userId = req.cookies.userId;
+    res.redirect(`/mediamanager/user/${userId}`);
+});
 app.get('/mediamanager/user/:userId', requireAuth, async (req, res) => {
     const { token } = req.cookies;
     const userId = req.params.userId;
+
     try {
-        const response = await fetch(`${process.env.HOST}/Users/${userId}`, {
+        // Get user info
+        const userRes = await fetch(`${process.env.HOST}/Users/${userId}`, {
             headers: { 'X-Emby-Token': token }
         });
-        if (!response.ok) throw new Error(`User fetch failed: ${response.status}`);
-        const user = await response.json();
+        if (!userRes.ok) throw new Error('User fetch failed');
+        const user = await userRes.json();
+        // Get media stats
+        const statsRes = await fetch(`${process.env.HOST}/Users/${userId}/Items?Fields=Type&Recursive=true`, {
+            headers: { 'X-Emby-Token': token }
+        });
+        if (!statsRes.ok) throw new Error('Stats fetch failed');
+        const stats = await statsRes.json();
+        // Count by type
+        const typeCounts = {};
+        for (const item of stats.Items || []) {
+            const type = item.Type;
+            typeCounts[type] = (typeCounts[type] || 0) + 1;
+        }
         res.render('mediamanager-user', {
             title: `${user.Name}'s Profile`,
-            user
+            user,
+            typeCounts: JSON.stringify(typeCounts) // send to chart
         });
     } catch (err) {
         console.error(err);
