@@ -28,11 +28,30 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Auth middleware
-const requireAuth = (req, res, next) => {
-    if (!req.cookies.token || !req.cookies.userId) {
+const requireAuth = async (req, res, next) => {
+    const { token, userId } = req.cookies;
+
+    if (!token || !userId) {
         return res.redirect('/mediamanager/login');
     }
-    next();
+
+    try {
+        const ping = await fetch(`${process.env.HOST}/Users/${userId}`, {
+            headers: { 'X-Emby-Token': token }
+        });
+
+        if (!ping.ok) {
+            console.warn(`❌ Invalid/expired token: ${ping.status}`);
+            res.clearCookie('token');
+            res.clearCookie('userId');
+            return res.redirect('/mediamanager/login');
+        }
+
+        next();
+    } catch (err) {
+        console.error('Auth check failed:', err);
+        return res.redirect('/mediamanager/login');
+    }
 };
 
 // Utility to get a library ID by collectionType (e.g., "movies", "tvshows")
@@ -154,38 +173,31 @@ app.get('/mediamanager/shows', requireAuth, async (req, res) => {
         res.status(500).send('Failed to load shows');
     }
 });
-
 // Show → Episodes
 app.get('/mediamanager/shows/:id', requireAuth, async (req, res) => {
     const { token, userId } = req.cookies;
     const showId = req.params.id;
-
     try {
         const episodesRes = await fetch(`${process.env.HOST}/Shows/${showId}/Episodes?UserId=${userId}`, {
             headers: { 'X-Emby-Token': token }
         });
-
         if (!episodesRes.ok) throw new Error(`Episodes fetch failed: ${episodesRes.status}`);
         const episodesData = await episodesRes.json();
-
         const showRes = await fetch(`${process.env.HOST}/Items/${showId}`, {
             headers: { 'X-Emby-Token': token }
         });
-
         if (!showRes.ok) throw new Error(`Show fetch failed: ${showRes.status}`);
         const show = await showRes.json();
-
         res.render('mediamanager-episodes', {
             title: `Episodes – ${show.Name}`,
-            showName: show.Name,
-            episodes: episodesData.Items || []
+            show,
+            items: episodesData.Items || []
         });
     } catch (err) {
         console.error(err);
         res.status(500).send('Failed to load episodes');
     }
 });
-
 // /getviews route – just view raw views from Jellyfin
 app.get('/getviews', requireAuth, async (req, res) => {
     const { token, userId } = req.cookies;
