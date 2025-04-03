@@ -1,54 +1,84 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{title}}</title>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{{title}}</title>
 
-    <meta property="og:title" content="LeftLane Community">
-
-    <link rel="icon" href="/images/favicon.ico">
-    <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/public/styles/main.css">
-    <script>
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            document.getElementById("clock").textContent = timeString;
-        }
-        setInterval(updateClock, 1000);
-        document.addEventListener("DOMContentLoaded", updateClock);
-    </script>
-</head>
-<body>
-    {{>navbar}}
-    <div class="container text-center my-5">
-        <h1 class="display-4">mattwiner.org</h1>
-    </div>
-
-    <div class="container my-5">
-        <div class="row text-center">
-            <h2 class="h4">Current Time</h2>
-            <p id="clock" class="display-4 text-primary"></p>
-        </div>
-    </div>
-    <div class="row text-center">
-        <h2 class="h4">Media Manager</h2>
-        <a href="/mediamanager">Media Manager</a>
-    </div>
-    <div class="row">
-        {{#each links}}
-        <div class="col-md-3 mb-4">
-            <div class="card text-center h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{this.name}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{this.status}}</h6>
-                    <span class="material-icons" style="font-size: 36px;">{{this.icon}}</span>
-                    <br>
-                    <a href="{{this.url}}" type="button" class="btn btn-primary">{{this.name}}</a>
-                    <p class="card-text mt-2">{{this.description}}</p>
-                </div>
+        <meta property="og:title" content="LeftLane Community" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="icon" href="/images/favicon.ico" />
+        <link rel="stylesheet" href="/styles/main.css" />
+        <link rel="stylesheet" href="/public/styles/main.css" />
+        <script>
+            function updateClock() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                document.getElementById("clock").textContent = timeString;
+            }
+            setInterval(updateClock, 1000);
+            document.addEventListener("DOMContentLoaded", updateClock);
+        </script>
+    </head>
+    <body>
+        {{>navbar}}
+        <div class="container my-5">
+            <div class="row text-center">
+                <h2 class="h4">Current Time</h2>
+                <p id="clock" class="display-4 text-primary"></p>
             </div>
         </div>
-        {{/each}}
-    </div>
-</body>
+        <div class="container mt-5">
+            <div class="row">
+                <h2>Directory</h2>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <a href="/photography" class="btn btn-primary">Photography</a>
+                </div>
+                <div class="col">Coding</div>
+                <div class="col">Contact</div>
+                <div class="col">Servers</div>
+            </div>
+        </div>
+
+        <section class="example">
+            <h2 class="text-bg-primary">Example Area</h2>
+            <p class="text-bg-secondary">Ive been driving in my car listening to jeremy clarkson</p>
+
+            <div class="table-example">
+                <h1>MW 2012 Blacklist</h1>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Speed Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alfa Romeo</td>
+                            <td>4C</td>
+                            <td>60,000</td>
+                        </tr>
+                        <tr>
+                            <td>Shelby</td>
+                            <td>Cobra</td>
+                            <td>135,000</td>
+                        </tr>
+                        <tr>
+                            <td>Mercedes-Benz</td>
+                            <td>SL65 AMG</td>
+                            <td>220,000</td>
+                        </tr>
+                        <tr>
+                            <td>Lexus</td>
+                            <td>LFA</td>
+                            <td>315,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </body>
+</html>
