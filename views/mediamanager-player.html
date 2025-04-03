@@ -11,17 +11,11 @@
 <div class="container mt-4 text-center">
     <h2>{{item.Name}}</h2>
 
-    <video
-            id="videoPlayer"
-            class="w-100 mt-3"
-            controls
-            autoplay
-            src="https://media.mattwiner.org/Videos/{{item.Id}}/stream.mp4?api_key={{token}}"
-    >
-        Your browser does not support HTML5 video.
+    <video id="videoPlayer" controls autoplay>
+        <source src=https://media.mattwiner.org/Videos/{{item.Id}}/stream.mp4?api_key={{token}}">
     </video>
-    <p>{{item.Description}}</p>
-    <h2>{{Name}}</h2>
+    <p>{{Description}}</p>
+    <h2>{{IndexNumber}}</h2>
 </div>
 </body>
 </html>
