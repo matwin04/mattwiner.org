@@ -33,6 +33,14 @@ async function setupDB() {
                 password_hash TEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )`;
+        await sql`
+            CREATE TABLE IF NOT EXISTS links (
+                id SERIAL PRIMARY KEY,
+                link TEXT NOT NULL,
+                server_name TEXT NOT NULL,
+                status TEXT DEFAULT 'unknown',
+                icon TEXT DEFAULT 'info'
+            )`;
         console.log("✅ Users & POIs tables ready");
     } catch (err) {
         console.error("❌ Database setup failed:", err);
@@ -41,9 +49,19 @@ async function setupDB() {
 setupDB();
 
 // HOME ROUTE
-app.get("/", (req, res) => {
-    res.render("index", { title: "PINGAS" });
+app.get("/", async (req, res) => {
+    try {
+        const links = await sql`SELECT * FROM links ORDER BY id`;
+        res.render("index", { title: "MW.ORG", links });
+    } catch (err) {
+        console.error("Error loading links:", err);
+        res.status(500).send("Server error");
+    }
 });
+app.get("/")
+app.get("/photogrpahy", (req, res) => {
+    res.render("photogrpahy", { title: "PHOTOGRAPHY" });
+})
 if (!process.env.VERCEL && !process.env.NOW_REGION) {
     const PORT = process.env.PORT || 8088;
     app.listen(PORT, () => {
