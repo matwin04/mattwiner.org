@@ -50,6 +50,7 @@ async function setupDB() {
                 description TEXT NOT NULL
             )`;
 
+
         console.log("✅ Users & POIs tables ready");
     } catch (err) {
         console.error("❌ Database setup failed:", err);
