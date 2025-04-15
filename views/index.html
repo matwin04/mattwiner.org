@@ -29,20 +29,20 @@
             </div>
         </div>
 
-            <div class="row justify-content-center">
-                {{#each links}}
-                <div class="col-md-4 mb-4">
-                    <div class="card text-center shadow-sm">
-                        <div class="card-header fw-semibold">{{this.server_name}}</div>
-                        <div class="card-body">
-                            <span class="material-icons text-primary d-block mb-3">{{this.icon}}</span>
-                            <a class="btn btn-outline-primary" href="{{this.link}}" target="_blank">Visit</a>
-                        </div>
+        <div class="row justify-content-center">
+            {{#each links}}
+            <div class="col-md-4 mb-4">
+                <div class="card text-center shadow-sm">
+                    <div class="card-header fw-semibold">{{this.server_name}}</div>
+                    <div class="card-body">
+                        <span class="material-icons text-primary d-block mb-3">{{this.icon}}</span>
+                        <a class="btn btn-outline-primary" href="{{this.link}}" target="_blank">Visit</a>
                     </div>
                 </div>
-                {{/each}}
             </div>
+            {{/each}}
         </div>
+    </div>
 
 
 

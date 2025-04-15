@@ -4,8 +4,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { engine } from "express-handlebars";
 import { fileURLToPath } from "url";
-
-
+import { inject } from "@vercel/analytics"
 
 dotenv.config();
 const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
@@ -41,13 +40,22 @@ async function setupDB() {
                 status TEXT DEFAULT 'unknown',
                 icon TEXT DEFAULT 'info'
             )`;
+        await sql`
+            CREATE TABLE IF NOT EXISTS photos (
+                id SERIAL PRIMARY KEY,
+                filename TEXT NOT NULL,
+                camera TEXT NOT NULL,
+                date TIMESTAMP,
+                description TEXT NOT NULL
+            )`;
+
         console.log("✅ Users & POIs tables ready");
     } catch (err) {
         console.error("❌ Database setup failed:", err);
     }
 }
 setupDB();
-
+inject();
 // HOME ROUTE
 app.get("/", async (req, res) => {
     try {
@@ -58,10 +66,13 @@ app.get("/", async (req, res) => {
         res.status(500).send("Server error");
     }
 });
-app.get("/")
-app.get("/photogrpahy", (req, res) => {
-    res.render("photogrpahy", { title: "PHOTOGRAPHY" });
+app.get("/about", (req, res) => {
+    res.render("about", { title: "ABOUT" });
 })
+app.get("/photos", async (req, res) => {
+    const photos = await sql`SELECT * FROM photos ORDER BY date DESC`;
+    res.render("photos", { title: "Photos", photos });
+});
 if (!process.env.VERCEL && !process.env.NOW_REGION) {
     const PORT = process.env.PORT || 8088;
     app.listen(PORT, () => {
