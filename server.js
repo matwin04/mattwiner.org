@@ -4,7 +4,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { engine } from "express-handlebars";
 import { fileURLToPath } from "url";
-import { inject } from "@vercel/analytics"
+import { inject } from "@vercel/analytics";
 
 dotenv.config();
 const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
