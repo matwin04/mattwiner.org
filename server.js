@@ -6,6 +6,7 @@ import { engine } from "express-handlebars";
 import { fileURLToPath } from "url";
 import { inject } from "@vercel/analytics";
 
+inject();
 dotenv.config();
 const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
 const app = express();
