@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@statsig/statsig-node-core": "^0.1.0",
     "@tailwindcss/cli": "^4.0.11",
     "@tailwindcss/postcss": "^4.0.11",
     "@vercel/analytics": "^1.5.0",

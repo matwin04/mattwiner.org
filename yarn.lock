@@ -48,6 +48,27 @@
     "@parcel/watcher-win32-ia32" "2.5.1"
     "@parcel/watcher-win32-x64" "2.5.1"
 
+"@statsig/statsig-node-core-darwin-arm64@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@statsig/statsig-node-core-darwin-arm64/-/statsig-node-core-darwin-arm64-0.1.0.tgz"
+  integrity sha512-0/zYRdla8AWAPbbKPhmNoQd0a9qhg2HQt7C++8NhWmCwx5BuuSCFz8RlB3B45SvwNvnd2r5eF+mUgfsIw328vA==
+
+"@statsig/statsig-node-core@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@statsig/statsig-node-core/-/statsig-node-core-0.1.0.tgz"
+  integrity sha512-Ehhx9hhwOrqlArTZ5M1tD92bAV2wF7F0p1D+h9IA9ewwt3MJFlzemryUtmU6cZ9nzSh80e8Dv5sgRUa8er3wEg==
+  dependencies:
+    node-fetch "2.7.0"
+  optionalDependencies:
+    "@statsig/statsig-node-core-darwin-arm64" "0.1.0"
+    "@statsig/statsig-node-core-darwin-x64" "0.1.0"
+    "@statsig/statsig-node-core-linux-arm64-gnu" "0.1.0"
+    "@statsig/statsig-node-core-linux-arm64-musl" "0.1.0"
+    "@statsig/statsig-node-core-linux-x64-gnu" "0.1.0"
+    "@statsig/statsig-node-core-linux-x64-musl" "0.1.0"
+    "@statsig/statsig-node-core-win32-ia32-msvc" "0.1.0"
+    "@statsig/statsig-node-core-win32-x64-msvc" "0.1.0"
+
 "@tailwindcss/cli@^4.0.11":
   version "4.0.11"
   resolved "https://registry.npmjs.org/@tailwindcss/cli/-/cli-4.0.11.tgz"
@@ -792,6 +813,13 @@ node-fetch@^3.3.2:
     fetch-blob "^3.1.4"
     formdata-polyfill "^4.0.10"
 
+node-fetch@2.7.0:
+  version "2.7.0"
+  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.7.0.tgz"
+  integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
+  dependencies:
+    whatwg-url "^5.0.0"
+
 node-releases@^2.0.19:
   version "2.0.19"
   resolved "https://registry.npmjs.org/node-releases/-/node-releases-2.0.19.tgz"
@@ -1087,6 +1115,11 @@ toidentifier@1.0.1:
   resolved "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
+tr46@~0.0.3:
+  version "0.0.3"
+  resolved "https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz"
+  integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
+
 type-is@~1.6.18:
   version "1.6.18"
   resolved "https://registry.npmjs.org/type-is/-/type-is-1.6.18.tgz"
@@ -1127,6 +1160,19 @@ web-streams-polyfill@^3.0.3:
   version "3.3.3"
   resolved "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.3.3.tgz"
   integrity sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==
+
+webidl-conversions@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-3.0.1.tgz"
+  integrity sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==
+
+whatwg-url@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/whatwg-url/-/whatwg-url-5.0.0.tgz"
+  integrity sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==
+  dependencies:
+    tr46 "~0.0.3"
+    webidl-conversions "^3.0.0"
 
 which@^2.0.1:
   version "2.0.2"

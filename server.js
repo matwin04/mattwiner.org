@@ -22,6 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.join(__dirname, "public")));
 // ✅ Ensure the POIs table exists
 // ✅ Ensure the Users & POIs Table Exist
+
+
 async function setupDB() {
     console.log("Starting DB...");
     try {
