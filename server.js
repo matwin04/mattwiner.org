@@ -14,6 +14,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const VIEWS_DIR = path.join(__dirname, "views");
 const PARTIALS_DIR = path.join(VIEWS_DIR, "partials");
+const IMMICH_API_KEY = process.env.IMMICH_API_KEY;
+console.log("🔐 Immich key loaded:", IMMICH_API_KEY); // Optional test
 app.engine("html", engine({ extname: ".html", defaultLayout: false, partialsDir: PARTIALS_DIR }));
 app.set("view engine", "html");
 app.set("views", VIEWS_DIR);
@@ -46,6 +48,7 @@ async function setupDB() {
         await sql`
             CREATE TABLE IF NOT EXISTS photos (
                 id SERIAL PRIMARY KEY,
+                immich_id TEXT NOT NULL,
                 filename TEXT NOT NULL,
                 camera TEXT NOT NULL,
                 date TIMESTAMP,
