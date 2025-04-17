@@ -6,7 +6,6 @@ import { engine } from "express-handlebars";
 import { fileURLToPath } from "url";
 import { inject } from "@vercel/analytics";
 
-inject();
 dotenv.config();
 const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
 const app = express();
@@ -62,7 +61,7 @@ async function setupDB() {
     }
 }
 setupDB();
-inject();
+
 // HOME ROUTE
 app.get("/", async (req, res) => {
     try {
@@ -75,6 +74,7 @@ app.get("/", async (req, res) => {
 });
 app.get("/about", (req, res) => {
     res.render("about", { title: "ABOUT" });
+
 })
 app.get("/photos", async (req, res) => {
     const photos = await sql`SELECT * FROM photos ORDER BY date DESC`;

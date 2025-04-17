@@ -19,15 +19,17 @@
         {{#each photos}}
         <div class="col">
             <div class="card h-100 text-center">
-                {{#if this.immich_id}}
-                <img src="https://immich.mattwiner.org/api/assets/{{this.immich_id}}/thumbnail?size=preview" class="card-img-top" alt="{{this.description}}">
-                {{else}}
-                <img src="/public/images/{{this.filename}}" class="card-img-top" alt="{{this.description}}">
-                {{/if}}
+
+                <img src="https://immich.mattwiner.org/api/assets/{{this.immich_id}}/thumbnail?size=preview"
+                     class="card-img-top"
+                     alt="{{this.description}}"
+                     data-immich-id="{{this.immich_id}}">
+
                 <div class="card-body">
                     <h5 class="card-title">{{this.filename}}</h5>
                     <p class="card-text">{{this.date}}</p>
                     <p class="card-text">{{this.description}}</p>
+                    <div class="metadata-container"></div> <!-- 🔥 metadata will be inserted here -->
                 </div>
             </div>
         </div>
