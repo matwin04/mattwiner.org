@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import { inject } from "@vercel/analytics";
 
 dotenv.config();
+console.log("🧪 Loaded DB URL:", process.env.DATABASE_URL);
 const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -79,6 +80,20 @@ app.get("/about", (req, res) => {
 app.get("/photos", async (req, res) => {
     const photos = await sql`SELECT * FROM photos ORDER BY date DESC`;
     res.render("photos", { title: "Photos", photos });
+});
+app.get("/api/immich/:id", async (req, res) => {
+    const assetId = req.params.id;
+    const fetch = (await import("node-fetch")).default;
+    const response = await fetch(`https://immich.mattwiner.org/api/assets/${assetId}/thumbnail?size=preview`, {
+        headers: {
+            "x-api-key": process.env.IMMICH_API_KEY
+        }
+    });
+    if (!response.ok) {
+        return res.status(response.status).send("Immich image not available");
+    }
+    res.setHeader("Content-Type", response.headers.get("content-type"));
+    response.body.pipe(res);
 });
 if (!process.env.VERCEL && !process.env.NOW_REGION) {
     const PORT = process.env.PORT || 8088;

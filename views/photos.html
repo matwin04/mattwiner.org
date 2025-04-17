@@ -20,11 +20,8 @@
         <div class="col">
             <div class="card h-100 text-center">
 
-                <img src="https://immich.mattwiner.org/api/assets/{{this.immich_id}}/thumbnail?size=preview"
-                     class="card-img-top"
-                     alt="{{this.description}}"
-                     data-immich-id="{{this.immich_id}}">
 
+                <img src="/api/immich/{{this.immich_id}}" class="card-img-top" alt="{{this.description}}">
                 <div class="card-body">
                     <h5 class="card-title">{{this.filename}}</h5>
                     <p class="card-text">{{this.date}}</p>
