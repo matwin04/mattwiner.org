@@ -85,6 +85,39 @@ app.get("/extras/osaka",async (req, res) => {
     const osaka = "AYUMU";
     res.render("extras/osaka", { title: "OSAKA" });
 })
+app.get("/render/weather", async (req, res) => {
+    const { lat, lon } = req.query;
+    const apiKey = process.env.TOMORROW_API_KEY;
+
+    if (!lat || !lon) {
+        return res.status(400).send("Missing lat/lon");
+    }
+
+    try {
+        const fetch = (await import("node-fetch")).default;
+        const response = await fetch(`https://api.tomorrow.io/v4/weather/realtime?location=${lat},${lon}&units=imperial`, {
+            headers: { apikey: apiKey }
+        });
+
+        if (!response.ok) {
+            return res.status(response.status).send("Failed to fetch weather");
+        }
+
+        const data = await response.json();
+        const values = data?.data?.values;
+
+        if (!values) {
+            return res.send("<p>Weather data not available</p>");
+        }
+        res.render("partials/weather", {
+            layout: false, // disables main layout
+            item: values
+        });
+    } catch (err) {
+        console.error("❌ Weather error:", err);
+        res.send("<p>Could not load weather</p>");
+    }
+});
 app.get("/api/immich/:id", async (req, res) => {
     const assetId = req.params.id;
     const fetch = (await import("node-fetch")).default;
