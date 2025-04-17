@@ -23,6 +23,15 @@
             setInterval(updateClock, 1000);
             document.addEventListener("DOMContentLoaded", updateClock);
         </script>
+        <script>
+            function updateDate() {
+                const date = new Date();
+                const month = date.getMonth() + 1;
+                let day = date.getDate();
+                document.getElementById("date").textContent = `${month}/${day}/${date.getFullYear()}`;
+            }
+            document.addEventListener("DOMContentLoaded", updateDate);
+        </script>
     </head>
     <body>
         {{>navbar}}
@@ -40,15 +49,30 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h4 class="card-title">Date</h4>
+                        </div>
+                        <div class="card-body">
+                            <p id="date" class="display-4 text-primary"></p>
+                            <p id="date-time">BRUH STANDARD TIME</p>
+                        </div>
+                    </div>
+            </div>
+            <div class="row colspan-2">
                 <div class="col">
                     <div id="weather"></div>
                 </div>
+            </div>
             </div>
             <div class="row colspan-2">
                 <div class="col">
                     <div class="card text-center">
                         <div class="card-header">
                             <h4 class="card-title">Upcoming Week</h4>
+
                         </div>
                         <div class="card-body">
                             <p>Placeholder</p>
