@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { engine } from "express-handlebars";
 import { fileURLToPath } from "url";
 import { inject } from "@vercel/analytics";
-
+import fetch from "node-fetch";
 dotenv.config();
 console.log("🧪 Loaded DB URL:", process.env.DATABASE_URL);
 const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
@@ -81,6 +81,10 @@ app.get("/photos", async (req, res) => {
     const photos = await sql`SELECT * FROM photos ORDER BY date DESC`;
     res.render("photos", { title: "Photos", photos });
 });
+app.get("/extras/osaka",async (req, res) => {
+    const osaka = "AYUMU";
+    res.render("extras/osaka", { title: "OSAKA" });
+})
 app.get("/api/immich/:id", async (req, res) => {
     const assetId = req.params.id;
     const fetch = (await import("node-fetch")).default;
