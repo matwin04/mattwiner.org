@@ -75,12 +75,17 @@ app.get("/", async (req, res) => {
 });
 app.get("/about", (req, res) => {
     res.render("about", { title: "ABOUT" });
-
 })
 app.get("/photos", async (req, res) => {
     const photos = await sql`SELECT * FROM photos ORDER BY date DESC`;
     res.render("photos", { title: "Photos", photos });
 });
+app.get("/testrange", async (req, res) => {
+    res.render("testrange", { title: "Testrange" });
+});
+app.get("/tesrange",async(req,res)=>{
+    res.render("weather",{title:"Weather"});
+})
 app.get("/extras/osaka",async (req, res) => {
     const osaka = "AYUMU";
     res.render("extras/osaka", { title: "OSAKA" });
@@ -88,7 +93,6 @@ app.get("/extras/osaka",async (req, res) => {
 app.get("/render/weather", async (req, res) => {
     const { lat, lon } = req.query;
     const apiKey = process.env.TOMORROW_API_KEY;
-
     if (!lat || !lon) {
         return res.status(400).send("Missing lat/lon");
     }

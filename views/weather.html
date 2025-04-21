@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Weather Forecast</title>
+        <style>
+            .forecastTable {
+                margin-top: 20px;
+            }
+            table {
+                border-collapse: collapse;
+                width: 300px;
+            }
+            th,
+            td {
+                border: 1px solid #aaa;
+                padding: 8px;
+                text-align: center;
+            }
+            .container {
+                background-color: antiquewhite;
+                text-align: center;
+            }
+            #current-hour {
+                background-color: black;
+                color: yellow;
+            }
+            #weather-output {
+                border: 1px solid black;
+            }
+            .forecastTable {
+                width: 100%;
+                background-color: aqua;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Weather Test</h1>
+        <div class="container">
+            <div id="weather-output">Loading...</div>
+            <table class="forecastTable">
+                <thead></thead>
+                <tbody id="forecast-body">
+                    <!-- JS will inject rows here -->
+                </tbody>
+            </table>
+        </div>
+
+        <script src="/public/scripts/weather.js"></script>
+    </body>
+</html>
