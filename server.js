@@ -25,7 +25,6 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 // ✅ Ensure the POIs table exists
 // ✅ Ensure the Users & POIs Table Exist
 
-
 async function setupDB() {
     console.log("Starting DB...");
     try {
@@ -55,7 +54,6 @@ async function setupDB() {
                 description TEXT NOT NULL
             )`;
 
-
         console.log("✅ Users & POIs tables ready");
     } catch (err) {
         console.error("❌ Database setup failed:", err);
@@ -75,7 +73,7 @@ app.get("/", async (req, res) => {
 });
 app.get("/about", (req, res) => {
     res.render("about", { title: "ABOUT" });
-})
+});
 app.get("/photos", async (req, res) => {
     const photos = await sql`SELECT * FROM photos ORDER BY date DESC`;
     res.render("photos", { title: "Photos", photos });
@@ -83,13 +81,13 @@ app.get("/photos", async (req, res) => {
 app.get("/testrange", async (req, res) => {
     res.render("testrange", { title: "Testrange" });
 });
-app.get("/tesrange",async(req,res)=>{
-    res.render("weather",{title:"Weather"});
-})
-app.get("/extras/osaka",async (req, res) => {
+app.get("/tesrange/weather", async (req, res) => {
+    res.render("weather", { title: "Weather" });
+});
+app.get("/extras/osaka", async (req, res) => {
     const osaka = "AYUMU";
     res.render("extras/osaka", { title: "OSAKA" });
-})
+});
 app.get("/render/weather", async (req, res) => {
     const { lat, lon } = req.query;
     const apiKey = process.env.TOMORROW_API_KEY;
@@ -99,9 +97,12 @@ app.get("/render/weather", async (req, res) => {
 
     try {
         const fetch = (await import("node-fetch")).default;
-        const response = await fetch(`https://api.tomorrow.io/v4/weather/realtime?location=${lat},${lon}&units=imperial`, {
-            headers: { apikey: apiKey }
-        });
+        const response = await fetch(
+            `https://api.tomorrow.io/v4/weather/realtime?location=${lat},${lon}&units=imperial`,
+            {
+                headers: { apikey: apiKey }
+            }
+        );
 
         if (!response.ok) {
             return res.status(response.status).send("Failed to fetch weather");
