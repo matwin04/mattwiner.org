@@ -81,8 +81,8 @@ app.get("/photos", async (req, res) => {
 app.get("/testrange", async (req, res) => {
     res.render("testrange", { title: "Testrange" });
 });
-app.get("/tesrange/weather", async (req, res) => {
-    res.render("weather", { title: "Weather" });
+app.get("/weather", async (req, res) => {
+    res.render("weather");
 });
 app.get("/extras/osaka", async (req, res) => {
     const osaka = "AYUMU";
