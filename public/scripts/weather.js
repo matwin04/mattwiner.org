@@ -29,8 +29,9 @@ async function fetchDailyWeather(lat, lon) {
             method: "GET",
             headers: { "Content-Type": "application/json; charset=utf-8" }
         });
-
+        
         const data = await response.json();
+        console.log(data);
         const daily = data.daily;
         const tbody = document.getElementById("daily-weather-body");
         tbody.innerHTML = "";
