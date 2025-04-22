@@ -35,7 +35,10 @@
     </head>
     <body>
         {{>navbar}}
-        <script defer src="https://vercel.com/analytics/script.js"></script>
+        <script>
+            window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        </script>
+        <script defer src="/_vercel/insights/script.js"></script>
 
         <div class="container mt-5 pd-4">
             <div class="row">

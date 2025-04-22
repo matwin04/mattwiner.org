@@ -19,10 +19,15 @@
     wrap-ansi "^8.1.0"
     wrap-ansi-cjs "npm:wrap-ansi@^7.0.0"
 
-"@parcel/watcher-darwin-arm64@2.5.1":
+"@parcel/watcher-linux-x64-glibc@2.5.1":
   version "2.5.1"
-  resolved "https://registry.npmjs.org/@parcel/watcher-darwin-arm64/-/watcher-darwin-arm64-2.5.1.tgz"
-  integrity sha512-eAzPv5osDmZyBhou8PoF4i6RQXAfeKL9tjb3QzYuccXFMQU0ruIc/POh30ePnaOyD1UXdlKguHBmsTs53tVoPw==
+  resolved "https://registry.npmjs.org/@parcel/watcher-linux-x64-glibc/-/watcher-linux-x64-glibc-2.5.1.tgz"
+  integrity sha512-GcESn8NZySmfwlTsIur+49yDqSny2IhPeZfXunQi48DMugKeZ7uy1FX83pO0X22sHntJ4Ub+9k34XQCX+oHt2A==
+
+"@parcel/watcher-linux-x64-musl@2.5.1":
+  version "2.5.1"
+  resolved "https://registry.npmjs.org/@parcel/watcher-linux-x64-musl/-/watcher-linux-x64-musl-2.5.1.tgz"
+  integrity sha512-n0E2EQbatQ3bXhcH2D1XIAANAcTZkQICBPVaxMeaCVBtOpBZpWJuf7LwyWPSBDITb7In8mqQgJ7gH8CILCURXg==
 
 "@parcel/watcher@^2.5.1":
   version "2.5.1"
@@ -48,10 +53,15 @@
     "@parcel/watcher-win32-ia32" "2.5.1"
     "@parcel/watcher-win32-x64" "2.5.1"
 
-"@statsig/statsig-node-core-darwin-arm64@0.1.0":
+"@statsig/statsig-node-core-linux-x64-gnu@0.1.0":
   version "0.1.0"
-  resolved "https://registry.npmjs.org/@statsig/statsig-node-core-darwin-arm64/-/statsig-node-core-darwin-arm64-0.1.0.tgz"
-  integrity sha512-0/zYRdla8AWAPbbKPhmNoQd0a9qhg2HQt7C++8NhWmCwx5BuuSCFz8RlB3B45SvwNvnd2r5eF+mUgfsIw328vA==
+  resolved "https://registry.npmjs.org/@statsig/statsig-node-core-linux-x64-gnu/-/statsig-node-core-linux-x64-gnu-0.1.0.tgz"
+  integrity sha512-EODhyzRtHW7mBMfx3b71ZTldy9YsN6REHolofb5AggZGDMBWIn9wWAw+gjUN3bM5h9T0zkCdqXU++6WGJGZRCA==
+
+"@statsig/statsig-node-core-linux-x64-musl@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@statsig/statsig-node-core-linux-x64-musl/-/statsig-node-core-linux-x64-musl-0.1.0.tgz"
+  integrity sha512-l+vtDKo71RjSnOfm3ko3pnAQRjy33TUu6HEUgnG+GLHwbA4WfU5A1u+HM2w3v7d/RWgCM9/1IDNZ8u3RrcwTvA==
 
 "@statsig/statsig-node-core@^0.1.0":
   version "0.1.0"
@@ -92,10 +102,15 @@
     jiti "^2.4.2"
     tailwindcss "4.0.11"
 
-"@tailwindcss/oxide-darwin-arm64@4.0.11":
+"@tailwindcss/oxide-linux-x64-gnu@4.0.11":
   version "4.0.11"
-  resolved "https://registry.npmjs.org/@tailwindcss/oxide-darwin-arm64/-/oxide-darwin-arm64-4.0.11.tgz"
-  integrity sha512-CM5SF53zzqYqQQGlP6N94zTliUi2FxW4itr223xb2PWgbwf48JTE2P6DNrA5DHOxacIliiCYiBzmKGwKdGMu8w==
+  resolved "https://registry.npmjs.org/@tailwindcss/oxide-linux-x64-gnu/-/oxide-linux-x64-gnu-4.0.11.tgz"
+  integrity sha512-4aCBYzU2SyFUw/dSP3SYAaeo3I7+c6to9acqXAl/Y5XnAO3q6SBrjw2sU2RG7f5Yi+jxevFh4BcOS5ofhhoTIA==
+
+"@tailwindcss/oxide-linux-x64-musl@4.0.11":
+  version "4.0.11"
+  resolved "https://registry.npmjs.org/@tailwindcss/oxide-linux-x64-musl/-/oxide-linux-x64-musl-4.0.11.tgz"
+  integrity sha512-Y5j5Yp3lRcgyzOF+CY+u54aUUtvZ6OwiVPeILE3wqbsDA6X3UiUpVr8tW2eREERld0gELfXG8TyNAtDsBIOHwA==
 
 "@tailwindcss/oxide@4.0.11":
   version "4.0.11"
@@ -674,10 +689,15 @@ jiti@^2.4.2:
   resolved "https://registry.npmjs.org/jiti/-/jiti-2.4.2.tgz"
   integrity sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==
 
-lightningcss-darwin-arm64@1.29.2:
+lightningcss-linux-x64-gnu@1.29.2:
   version "1.29.2"
-  resolved "https://registry.npmjs.org/lightningcss-darwin-arm64/-/lightningcss-darwin-arm64-1.29.2.tgz"
-  integrity sha512-cK/eMabSViKn/PG8U/a7aCorpeKLMlK0bQeNHmdb7qUnBkNPnL+oV5DjJUo0kqWsJUapZsM4jCfYItbqBDvlcA==
+  resolved "https://registry.npmjs.org/lightningcss-linux-x64-gnu/-/lightningcss-linux-x64-gnu-1.29.2.tgz"
+  integrity sha512-0v6idDCPG6epLXtBH/RPkHvYx74CVziHo6TMYga8O2EiQApnUPZsbR9nFNrg2cgBzk1AYqEd95TlrsL7nYABQg==
+
+lightningcss-linux-x64-musl@1.29.2:
+  version "1.29.2"
+  resolved "https://registry.npmjs.org/lightningcss-linux-x64-musl/-/lightningcss-linux-x64-musl-1.29.2.tgz"
+  integrity sha512-rMpz2yawkgGT8RULc5S4WiZopVMOFWjiItBT7aSfDX4NQav6M44rhn5hjtkKzB+wMTRlLLqxkeYEtQ3dd9696w==
 
 lightningcss@^1.29.1:
   version "1.29.2"
