@@ -6,6 +6,7 @@ import { engine } from "express-handlebars";
 import { fileURLToPath } from "url";
 import { inject } from "@vercel/analytics";
 import fetch from "node-fetch";
+import { track } from '@vercel/analytics/server';
 dotenv.config();
 console.log("🧪 Loaded DB URL:", process.env.DATABASE_URL);
 const sql = postgres(process.env.DATABASE_URL, { ssl: "require" });
@@ -61,6 +62,8 @@ async function setupDB() {
 }
 setupDB();
 
+
+track('My Event', {}, { flags: ['summer-sale'] });
 // HOME ROUTE
 app.get("/", async (req, res) => {
     try {
