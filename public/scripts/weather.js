@@ -155,7 +155,6 @@ async function fetchDailyWeather(lat, lon) {
     const params = {
         latitude: lat,
         longitude: lon,
-        hourly: "temperature_2m,precipitation_probability,weather_code",
         daily: "sunrise,sunset,temperature_2m_max,temperature_2m_min",
         temperature_unit: "fahrenheit",
         timezone: "America/Los_Angeles"
@@ -174,22 +173,42 @@ async function fetchDailyWeather(lat, lon) {
 
         const data = await response.json();
         const daily = data.daily;
+        const tbody = document.getElementById("daily-weather-body");
+        tbody.innerHTML = ""; // Clear previous data
 
-        const sunrise = new Date(daily.sunrise[0]).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-        const sunset = new Date(daily.sunset[0]).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-        const tempMax = daily.temperature_2m_max[0];
-        const tempMin = daily.temperature_2m_min[0];
-        document.getElementById("date").textContent = date;
-        document.getElementById("sunrise").textContent = sunrise;
-        document.getElementById("sunset").textContent = sunset;
-        document.getElementById("temp-max").textContent = `${tempMax}°F`;
-        document.getElementById("temp-min").textContent = `${tempMin}°F`;
+        for (let i = 0; i < daily.time.length && i < 10; i++) {
+            const date = new Date(daily.time[i]).toLocaleDateString(undefined, {
+                weekday: "short",
+                month: "short",
+                day: "numeric"
+            });
+            const sunrise = new Date(daily.sunrise[i]).toLocaleTimeString([], {
+                hour: "numeric",
+                minute: "2-digit"
+            });
+            const sunset = new Date(daily.sunset[i]).toLocaleTimeString([], {
+                hour: "numeric",
+                minute: "2-digit"
+            });
+            const tempMax = daily.temperature_2m_max[i];
+            const tempMin = daily.temperature_2m_min[i];
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${date}</td>
+                <td>${sunrise}</td>
+                <td>${sunset}</td>
+                <td>${tempMax}°F</td>
+                <td>${tempMin}°F</td>
+            `;
+            tbody.appendChild(row);
+        }
     } catch (err) {
         console.error("Error fetching daily weather:", err);
-        document.getElementById("high-low").textContent = "Unable to fetch daily weather.";
+        document.getElementById("daily-weather-body").innerHTML =
+            `<tr><td colspan="5">Unable to fetch daily weather.</td></tr>`;
     }
 }
-
 // Wrap navigator.geolocation logic
 function getUserLocation(callback) {
     if (navigator.geolocation) {
