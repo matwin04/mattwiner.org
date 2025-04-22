@@ -10,147 +10,7 @@ function getWeatherIcon(code) {
 }
 
 // Fetch weather data from Open-Meteo API
-async function fetchWeather(lat, lon) {
-    const params = {
-        latitude: lat,
-        longitude: lon,
-        hourly: "temperature_2m,precipitation_probability,weather_code",
-        current: "temperature_2m,is_day",
-        timezone: "America/Los_Angeles",
-        past_days: "1",
-        wind_speed_unit: "mph",
-        temperature_unit: "fahrenheit",
-        precipitation_unit: "inch"
-    };
 
-    const queryString = new URLSearchParams(params).toString();
-    const url = `https://api.open-meteo.com/v1/forecast?${queryString}`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-
-        const currentTemp = data.current?.temperature_2m;
-        const isDay = data.current?.is_day;
-        const timeZone = data.timezone_abbreviation;
-
-        document.getElementById("weather-output").innerText =
-            `Current Temp: ${currentTemp}°F | Daytime: ${isDay ? "Yes" : "No"} | ${timeZone}`;
-        // Table Data
-        const hours = data.hourly.time;
-        const temps = data.hourly.temperature_2m;
-        const weatherCodes = data.hourly.weather_code;
-        const precipitation_probability = data.hourly.precipitation_probability;
-
-        const now = new Date();
-        const currentHour = now.getHours();
-        const tbody = document.getElementById("forecast-body");
-        tbody.innerHTML = "";
-        //Datasets for Chart
-        const labels = [];
-        const tempData = [];
-        const iconLabels = [];
-        const rainData = [];
-        for (let i = 0; i < hours.length; i++) {
-            const hourDate = new Date(hours[i]);
-
-            if (hourDate.getDate() === now.getDate() && hourDate.getHours() >= currentHour) {
-                const hourStr = hourDate.toLocaleTimeString([], {
-                    hour: "numeric",
-                    minute: "2-digit"
-                });
-                const temp = Math.round(temps[i]);
-                const code = data.hourly.weather_code[i];
-                const rain = data.hourly.precipitation_probability[i];
-                const icon = getWeatherIcon(code);
-
-                // Table row
-                const row = document.createElement("tr");
-                if (tbody.children.length === 0) {
-                    row.id = "current-hour";
-                }
-
-                const th = document.createElement("th");
-                const tdTemp = document.createElement("td");
-                const tdIcon = document.createElement("td");
-                const tdRain = document.createElement("td");
-                const iconSpan = document.createElement("span");
-
-                iconSpan.classList.add("material-icons");
-                iconSpan.textContent = icon;
-                // Cell Content
-                th.textContent = hourStr;
-                tdTemp.textContent = `${temp}°F`;
-                tdRain.textContent = `${rain}%`;
-                tdIcon.appendChild(iconSpan);
-
-                row.appendChild(th);
-                row.appendChild(tdTemp);
-                row.appendChild(tdRain);
-                row.appendChild(tdIcon);
-                tbody.appendChild(row);
-
-                // Chart data
-                labels.push(hourStr);
-                tempData.push(temp);
-                rainData.push(rain);
-                iconLabels.push(`${temp}°F (${icon})`);
-
-                if (labels.length >= 10) break;
-            }
-        }
-
-        // 🎯 Create Chart.js chart after loop
-        const ctx = document.getElementById("forecastChart").getContext("2d");
-        new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: "Temperature (°F)",
-                        data: tempData,
-                        borderColor: "orange",
-                        backgroundColor: "rgba(255,165,0,0.2)",
-                        fill: true,
-                        tension: 0.3,
-                        pointRadius: 5,
-                        pointHoverRadius: 7
-                    }
-                ]
-            },
-            options: {
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                return iconLabels[context.dataIndex];
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        title: {
-                            display: true,
-                            text: "Temp (°F)"
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: "Time"
-                        }
-                    }
-                }
-            }
-        });
-    } catch (err) {
-        document.getElementById("weather-output").innerText = "Error fetching weather.";
-        console.error("Weather fetch failed:", err);
-    }
-}
 async function fetchDailyWeather(lat, lon) {
     const params = {
         latitude: lat,
@@ -162,7 +22,6 @@ async function fetchDailyWeather(lat, lon) {
 
     const queryString = new URLSearchParams(params).toString();
     const url = `https://api.open-meteo.com/v1/forecast?${queryString}`;
-
     try {
         const response = await fetch(url, {
             method: "GET",
@@ -176,7 +35,7 @@ async function fetchDailyWeather(lat, lon) {
         const tbody = document.getElementById("daily-weather-body");
         tbody.innerHTML = ""; // Clear previous data
 
-        for (let i = 0; i < daily.time.length && i < 10; i++) {
+        for (let i = 0; i < daily.time.length && i < 12; i++) {
             const date = new Date(daily.time[i]).toLocaleDateString(undefined, {
                 weekday: "short",
                 month: "short",
@@ -209,6 +68,61 @@ async function fetchDailyWeather(lat, lon) {
             `<tr><td colspan="5">Unable to fetch daily weather.</td></tr>`;
     }
 }
+async function fetchHourlyWeather(lat, lon) {
+    const params = {
+        latitude: lat,
+        longitude: lon,
+        hourly: "temperature_2m,precipitation_probability,weather_code,relative_humidity_2m,dew_point_2m",
+        temperature_unit: "fahrenheit",
+        timezone: "America/Los_Angeles"
+    };
+    const queryString = new URLSearchParams(params).toString();
+    const url = `https://api.open-meteo.com/v1/forecast?${queryString}`;
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            }
+        });
+
+
+        const data = await response.json();
+        const hourly = data.hourly;
+
+
+        const now = new Date();
+        const currentHour = now.getHours();
+
+        const tbody = document.getElementById("hourly-weather-body");
+        tbody.innerHTML = "";
+        for (let i = 0; i < hourly.time.length; i++) {
+            const hourDate = new Date(hourly.time[i]);
+            if (hourDate.getDate() === now.getDate() && hourDate.getHours() >= currentHour) {
+                const timeStr = hourDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                const temp = Math.round(hourly.temperature_2m[i]);
+                const precip = hourly.precipitation_probability[i];
+                const humidity = hourly.relative_humidity_2m[i];
+                const dewPoint = hourly.dew_point_2m?.[i] ?? "N/A";
+                const weatherCode = hourly.weather_code[i];
+                const icon = getWeatherIcon(weatherCode);
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${timeStr}</td>
+                    <td>${temp}°F</td>
+                    <td>${precip}%</td>
+                    <td>${humidity}%</td>
+                    
+                    <td><span class="material-icons">${icon}</span></td>
+                `;
+                tbody.appendChild(row);
+                if (tbody.children.length >= 10) break; // Limit to next 10 hours
+            }
+        }
+    } catch (err) {
+        console.error("Error fetching hourly weather.");
+    }
+}
 // Wrap navigator.geolocation logic
 function getUserLocation(callback) {
     if (navigator.geolocation) {
@@ -229,6 +143,7 @@ function getUserLocation(callback) {
 }
 
 getUserLocation((lat, lon) => {
-    fetchWeather(lat, lon); // your hourly + chart
+ // your hourly + chart
     fetchDailyWeather(lat, lon); // this new daily data
+    fetchHourlyWeather(lat, lon);
 });
