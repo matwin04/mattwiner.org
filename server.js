@@ -81,8 +81,8 @@ app.get("/photos", async (req, res) => {
     const photos = await sql`SELECT * FROM photos ORDER BY date DESC`;
     res.render("photos", { title: "Photos", photos });
 });
-app.get("/testrange", async (req, res) => {
-    res.render("testrange", { title: "Testrange" });
+app.get("/transit", async (req, res) => {
+    res.render("transitNavigator", { title: "Testrange" });
 });
 app.get("/weather", async (req, res) => {
     res.render("weather");
