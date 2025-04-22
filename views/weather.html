@@ -3,49 +3,48 @@
     <head>
         <meta charset="UTF-8" />
         <title>Weather Forecast</title>
-        <style>
-            .forecastTable {
-                margin-top: 20px;
-            }
-            table {
-                border-collapse: collapse;
-                width: 300px;
-            }
-            th,
-            td {
-                border: 1px solid #aaa;
-                padding: 8px;
-                text-align: center;
-            }
-            .container {
-                background-color: antiquewhite;
-                text-align: center;
-            }
-            #current-hour {
-                background-color: black;
-                color: yellow;
-            }
-            #weather-output {
-                border: 1px solid black;
-            }
-            .forecastTable {
-                width: 100%;
-                background-color: #dedede;
-            }
-        </style>
+        <link href="/public/styles/weather.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="/public/scripts/clock.js"></script>
+
         <h1>Weather Test</h1>
+        <div id="clockcontainer">
+            <div id="clock"></div>
+            <div id="date"></div>
+        </div>
         <div class="container">
             <div id="weather-output">Loading...</div>
+
+            <canvas id="forecastChart" width="600" height="300"></canvas>
             <table class="forecastTable">
                 <thead></thead>
                 <tbody id="forecast-body">
                     <!-- JS will inject rows here -->
                 </tbody>
             </table>
-        </div>
 
+            <table id="daily-weather-table" class="weatherTable">
+                <thead>
+                    <tr>
+                        <th>Sunrise</th>
+                        <th>Sunset</th>
+                        <th>High</th>
+                        <th>Low</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="sunrise">--</td>
+                        <td id="sunset">--</td>
+                        <td id="temp-max">--</td>
+                        <td id="temp-min">--</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <script src="/public/scripts/weather.js"></script>
     </body>
 </html>

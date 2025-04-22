@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Overpass&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material");
+body {
+    text-align: center;
+    font-family: "Overpass", sans-serif;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    text-align: center;
+    vertical-align: middle;
+    /* ensures consistent row height */
+}
+#forecastChart {
+    max-height: 250px;
+}
+#current-hour {
+    background-color: #ffeeba;
+    font-weight: bold;
+}
+
+.material-icons {
+    font-family: "Material Icons";
+    font-size: 24px;
+    width: 24px;
+    height: 100%;
+}
