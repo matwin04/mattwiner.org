@@ -5,9 +5,8 @@
         <title>{{title}}</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
         <!-- Material Symbols -->
-        <link
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL,wght,GRAD,opsz@1,600,0,48"
-            rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="/styles/main.css" rel="stylesheet" type="text/css" />
         <style>
             /* Larger icon helper */
             .icon-xl {
@@ -38,14 +37,14 @@
                 <div class="column">
                     <p class="title is-4" id="clock"></p>
                     <p class="subtitle">
-                        <span class="material-symbols-rounded icon-xl">schedule</span><br />
+                        <span class="material-icons icon-xl">schedule</span><br />
                         Current Time
                     </p>
                 </div>
                 <div class="column">
                     <p class="title is-4" id="date"></p>
                     <p class="subtitle">
-                        <span class="material-symbols-rounded icon-xl">calendar_month</span><br />
+                        <span class="material-icons icon-xl">calendar_month</span><br />
                         Current Date
                     </p>
                 </div>
@@ -57,7 +56,7 @@
                 {{#each links}}
                 <div class="column is-one-quarter">
                     <a href="{{this.link}}" target="_blank" rel="noopener">
-                        <span class="material-symbols-rounded icon-xl">{{this.icon}}</span>
+                        <span class="material-icons icon-xl">{{this.icon}}</span>
                     </a>
                     <p class="mt-2">{{this.server_name}}</p>
                 </div>
