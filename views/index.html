@@ -4,7 +4,9 @@
         <meta charset="UTF-8" />
         <title>{{title}}</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     </head>
     <body>
         {{> navbar}}
@@ -35,7 +37,7 @@
             <div class="grid">
                 <div class="cell has-background has-text-centered">
                     <a href="https://github.com">
-                        <i class="fab fa-github fa-2x"></i>
+                        <i class="fa fa-google fa-2x"></i>
                     </a>
                 </div>
                 <div class="cell has-background has-text-centered">
@@ -60,7 +62,7 @@
                 {{#each links}}
                 <div class="cell has-background has-text-centered">
                     <a href="{{this.link}}">
-                        <i class="fab fa-github fa-2x"></i>
+                        <i class="fa fa-{{this.icon}} fa-2x"></i>
                     </a>
                 </div>
                 {{/each}}
