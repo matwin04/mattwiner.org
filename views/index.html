@@ -5,32 +5,65 @@
         <title>{{title}}</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-        <link href="/styles/main.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         {{> navbar}}
+        <script src="/public/scripts/clock.js"></script>
 
         <section class="section">
             <div class="container">
                 <h1 class="title has-text-centered">{{title}}</h1>
-                <div class="columns is-multiline">
-                    {{#each links}}
-                    <div class="column is-one-quarter">
-                        <div class="card has-text-centered">
-                            <div class="card-content">
-                                <span class="icon is-large">
-                                    <i class="fas fa-{{this.icon}} fa-2x"></i>
-                                </span>
-                                <h2 class="title is-5">{{this.server_name}}</h2>
-                                <p>
-                                    <a href="{{this.link}}" target="_blank">{{this.link}}</a>
-                                </p>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    {{/each}}
+                <h3 class="title is-3">Dashboard</h3>
+                <!-- dashboard -->
+            </div>
+            <div class="grid">
+                <!-- current time -->
+                <div class="cell">
+                    <p class="title is-4" id="clock"></p>
+                    <p class="subtitle"><i class="fa-solid fa-clock"></i> Current Time</p>
                 </div>
+
+                <!-- current date -->
+                <div class="cell">
+                    <p class="title is-4" id="date"></p>
+                    <p class="subtitle">
+                        <i class="fa-solid fa-calendar"></i>
+                        Current Date
+                    </p>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="cell has-background has-text-centered">
+                    <a href="https://github.com">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                </div>
+                <div class="cell has-background has-text-centered">
+                    <a href="https://github.com">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                </div>
+                <div class="cell has-background has-text-centered">
+                    <a href="https://github.com">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                </div>
+                <div class="cell has-background has-text-centered">
+                    <a href="https://github.com">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                </div>
+            </div>
+            <hr />
+            <h3>Bookmarks</h3>
+            <div class="grid">
+                {{#each links}}
+                <div class="cell has-background has-text-centered">
+                    <a href="{{this.link}}">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                </div>
+                {{/each}}
             </div>
         </section>
     </body>
