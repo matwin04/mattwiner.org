@@ -1,41 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>About</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
+    <head>
+        <meta charset="UTF-8" />
+        <title>About</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-</head>
-<body>
-{{> navbar}}
-<script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<div class="container">
-    <div class="row">
-        <div class="jumbotron">
-            <h1 class="display-4">About</h1>
-            <p class="lead">
-                Hello, my name is Matthew Winer, and this is my personal website / Personal Home page.
-                This is just a simple place for me to test my skills in HTML / JS / CSS and other website
-                building technologies.
-            </p>
-            <hr class="my-4">
-            <p>
-                I am a computer science student at Santiago Canyon College and I just thought that this
-                would be a fun way to practice and test my skills.
-            </p>
-        </div>
-    </div>
-    <div class="row">
-
-        <form method="POST" action="/api/inquiry">
-            <div class="form-group">
-
+    </head>
+    <body>
+        {{> navbar}}
+        <script>
+            window.va =
+                window.va ||
+                function () {
+                    (window.vaq = window.vaq || []).push(arguments);
+                };
+        </script>
+        <script defer src="/_vercel/insights/script.js"></script>
+        <div class="container">
+            <div class="row">
+                <div class="jumbotron">
+                    <h1 class="display-4">About</h1>
+                    <p class="lead">
+                        Hello, my name is Matthew Winer, and this is my personal website / Personal Home page. This is
+                        just a simple place for me to test my skills in HTML / JS / CSS and other website building
+                        technologies.
+                    </p>
+                    <hr class="my-4" />
+                    <p>
+                        I am a computer science student at Santiago Canyon College and I just thought that this would be
+                        a fun way to practice and test my skills.
+                    </p>
+                </div>
             </div>
-        </form>
-    </div>
-</div>
-</body>
+            <div class="row">
+                <form method="POST" action="/api/inquiry">
+                    <div class="form-group"></div>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>
