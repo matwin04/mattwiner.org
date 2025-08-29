@@ -4,9 +4,10 @@
         <meta charset="UTF-8" />
         <title>{{title}}</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="/styles/main.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         {{> navbar}}
@@ -22,7 +23,7 @@
                 <!-- current time -->
                 <div class="cell">
                     <p class="title is-4" id="clock"></p>
-                    <p class="subtitle"><i class="fa-solid fa-clock"></i> Current Time</p>
+                    <p class="subtitle"><span class="material-icons">schedule</span> Current Time</p>
                 </div>
 
                 <!-- current date -->
@@ -62,7 +63,7 @@
                 {{#each links}}
                 <div class="cell has-background has-text-centered">
                     <a href="{{this.link}}">
-                        <i class="fa fa-{{this.icon}} fa-2x"></i>
+                        <span class="material-icons md-48">{{this.icon}}</span>
                     </a>
                 </div>
                 {{/each}}
