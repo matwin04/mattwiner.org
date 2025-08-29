@@ -14,24 +14,23 @@
             <div class="container">
                 <h1 class="title has-text-centered">{{title}}</h1>
                 <div class="columns is-multiline">
-          {{#each links}}
-          <div class="column is-one-quarter">
-            <div class="card has-text-centered">
-              <div class="card-content">
-                <span class="icon is-large">
-                  <i class="fas fa-{{this.icon}} fa-2x"></i>
-                </span>
-                <h2 class="title is-5">{{this.server_name}}</h2>
-                <p>
-                  <a href="{{this.link}}" target="_blank">{{this.link}}</a>
-                </p>
-                <br />
-                
-              </div>
-            </div>
-          </div>
-          {{/each}}
-        </div>
+                    {{#each links}}
+                    <div class="column is-one-quarter">
+                        <div class="card has-text-centered">
+                            <div class="card-content">
+                                <span class="icon is-large">
+                                    <i class="fas fa-{{this.icon}} fa-2x"></i>
+                                </span>
+                                <h2 class="title is-5">{{this.server_name}}</h2>
+                                <p>
+                                    <a href="{{this.link}}" target="_blank">{{this.link}}</a>
+                                </p>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
             </div>
         </section>
     </body>
