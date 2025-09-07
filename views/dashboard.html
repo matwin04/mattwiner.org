@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Data Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {{> navbar}}
+    <canvas id="myChart"></canvas>
+
+    <script>
+        fetch('https://immich.mattwiner.org/api/server/storage') // Replace with your actual API
+            .then(response => response.json())
+            .then(apiData => {
+                const labels = apiData.map(item => item.label); // Assuming 'label' and 'value' fields
+                const values = apiData.map(item => item.value);
+
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar', // Or 'line', 'pie', etc.
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'My Data',
+                            data: values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>

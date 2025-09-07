@@ -84,6 +84,9 @@ app.get("/photos", async (req, res) => {
 app.get("/transit", async (req, res) => {
     res.render("transitNavigator", { title: "Testrange" });
 });
+app.get("/dashboard",async(req,res) => {
+    res.render("dashboard.html",{title:"title"});
+});
 app.get("/weather", async (req, res) => {
     res.render("weather");
 });
